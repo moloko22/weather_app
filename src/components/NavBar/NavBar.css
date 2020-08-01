@@ -17,3 +17,13 @@
     color: black;
     font-size: 19px;
 }
+.header_nav ul li a {
+    cursor: pointer;
+    color: black;
+}
+
+.header_nav ul li a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: red;
+}
