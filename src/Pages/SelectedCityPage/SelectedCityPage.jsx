@@ -1,5 +1,6 @@
 import React from 'react';
 import './SelectedCityPage.css';
+
 const SelectedCityPage = (props) => {
     const {
         city,
@@ -7,6 +8,19 @@ const SelectedCityPage = (props) => {
         weather,
         redirect,
     } = props;
+
+    React.useEffect(() => {
+        window.addEventListener('keydown', onCloseHandler);
+        return function cleanUp(){
+            window.removeEventListener('keydown', onCloseHandler)
+        }
+    });
+
+    const onCloseHandler = (e) => {
+        if(e.code === 'Escape'){
+            return redirectFn();
+        }
+    };
 
     const redirectFn = () => {
         return redirect('push', '/');

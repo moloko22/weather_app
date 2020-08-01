@@ -15,6 +15,7 @@ function App(props) {
         weather,
         city,
     } = props;
+
     return (
         <Router history={history}>
             <section className={'app'}>

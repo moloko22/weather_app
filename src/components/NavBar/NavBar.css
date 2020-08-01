@@ -3,6 +3,7 @@
     display: flex;
     justify-content: flex-end;
 }
+
 .header_nav ul {
     width: 38%;
     display: flex;
@@ -17,6 +18,7 @@
     color: black;
     font-size: 19px;
 }
+
 .header_nav ul li a {
     cursor: pointer;
     color: black;

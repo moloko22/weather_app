@@ -1,6 +1,6 @@
 import React from 'react';
 import './Main.css';
-import {Route, Switch} from "react-router-dom";
+import {Route, Switch, Redirect} from "react-router-dom";
 import {ROUTES} from "../../constants/routes";
 import AboutPage from "../../Pages/AboutPage/AboutPage";
 import HomePage from "../../Pages/HomePage/HomePage";
@@ -27,6 +27,7 @@ const Main = (props) => {
                                                                                         changeCity={changeCity}
                     />}/>
                     <Route path={ROUTES.ABOUT} component={() => <AboutPage/>}/>
+                    <Redirect from={ROUTES.UNDEFINED} to={ROUTES.HOME} />
                 </Switch>
         </main>
     );
