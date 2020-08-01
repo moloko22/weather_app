@@ -5,17 +5,27 @@ import {ROUTES} from "../../constants/routes";
 import AboutPage from "../../Pages/AboutPage/AboutPage";
 import HomePage from "../../Pages/HomePage/HomePage";
 import SelectedCityPage from "../../Pages/SelectedCityPage/SelectedCityPage";
-import {PrivateRoute} from "../../_helpers/privateRoute";
 
-const Main = () => {
+const Main = (props) => {
+    const {
+        city,
+        redirect,
+        weather,
+        changeCity,
+    } = props;
     return (
         <main className={'main'}>
                 <Switch>
-                    <Route exact path={ROUTES.HOME} component={() => <HomePage />}/>
-                    <PrivateRoute path={ROUTES.SELECTED_CITY}
-                                  component={() => <SelectedCityPage/>}
-                                  data={false}
-                    />
+                    <Route exact path={ROUTES.HOME} component={() => <HomePage city={city}
+                                                                               weather={weather}
+                                                                               changeCity={changeCity}
+
+                    />}/>
+                    <Route path={ROUTES.SELECTED_CITY} component={() => <SelectedCityPage city={city}
+                                                                                        redirect={redirect}
+                                                                                        weather={weather}
+                                                                                        changeCity={changeCity}
+                    />}/>
                     <Route path={ROUTES.ABOUT} component={() => <AboutPage/>}/>
                 </Switch>
         </main>
