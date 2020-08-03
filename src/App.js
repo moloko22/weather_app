@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
 import {history} from './_helpers/history';
 import {connect} from "react-redux";
@@ -20,6 +20,27 @@ function App(props) {
         city,
         getWeather,
     } = props;
+
+    const geoSuccess = (pos) => {
+        return saveGeoToLS({longitude: pos.coords.longitude, latitude: pos.coords.latitude})
+
+    };
+
+    const geoError = (err) => {
+        return saveGeoToLS({longitude: '', latitude: '', err: err.message})
+    };
+
+    useEffect(() => {
+        getGeoFromLS();
+        if(!geolocation.latitude || !geolocation.longitude){
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+            } else {
+                console.log("Geolocation is not supported by this browser.");
+            }
+        }
+    }, [city, geolocation, getWeather, geolocation.longitude, geolocation.latitude, getGeoFromLS]);
+
 
     return (
         <Router history={history}>
@@ -51,7 +72,7 @@ const mapStateToProps = store => ({
 const mapDispatchToProps = dispatch =>({
     changeCity: (city) => dispatch(changeCity(city)),
     redirect: (method, nextUrl) => dispatch({type: 'ROUTING', payload: {method, nextUrl}}),
-    getWeather: (data) => dispatch(getWeather(data)),
+    getWeather: (data, obj) => dispatch(getWeather(data, obj)),
     saveGeoToLS: (data) => dispatch(saveGeoLocationToLocalStorage(data)),
     getGeoFromLS: () => dispatch(getGeoLocationFromLocalStorage()),
 });

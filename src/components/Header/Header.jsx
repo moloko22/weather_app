@@ -3,10 +3,7 @@ import './Header.css';
 
 import NavBar from "../NavBar/NavBar";
 
-const Header = (props) => {
-    const {
-        city,
-    } = props;
+const Header = () => {
     return (
         <header className={'header'}>
             <div>
@@ -76,7 +73,7 @@ const Header = (props) => {
                     c51.815-0.085,93.89,41.844,93.983,93.659C494.966,373.024,457.421,413.81,408.642,417.768z"/>
                 </svg>
             </div>
-            <NavBar city={city}/>
+            <NavBar />
         </header>
     );
 };

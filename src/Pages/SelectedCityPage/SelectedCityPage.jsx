@@ -7,6 +7,7 @@ const SelectedCityPage = (props) => {
         changeCity,
         weather,
         redirect,
+        renderWeather,
     } = props;
 
     React.useEffect(() => {
@@ -26,12 +27,6 @@ const SelectedCityPage = (props) => {
         return redirect('push', '/');
     };
 
-    const renderWeather = () => {
-        return <div>
-            weather for {city}
-        </div>
-    };
-
     const showError = () => {
         return <div className={'modal'}>
             <div className={'modal_content'}>
@@ -47,7 +42,10 @@ const SelectedCityPage = (props) => {
         <div>
             {
                 city
-                ? renderWeather()
+                ? <div>
+                        {renderWeather()}
+                        <button onClick={() => redirect('goBack')}>Go back</button>
+                    </div>
                 : showError()
             }
         </div>
