@@ -1,4 +1,5 @@
 const initialState = {
+    timeTravel: [],
     weather: '',
     selectedCity: '',
     geolocation: {
@@ -10,22 +11,12 @@ const initialState = {
 
 export function weather(state = initialState, action){
     switch (action.type) {
-        case 'GET_GEOLOCATION_FROM_LOCAL_STORAGE': {
-            const newState = Object.assign({}, state);
-            newState.geoLocation = {
-                error: action.payload.error,
-                longitude: action.payload.longitude,
-                latitude: action.payload.latitude,
-            };
-            return newState;
+        case 'TIME_TRAVEL_BACKWARD': {
+            return state.timeTravel[0].timeTravel[0]
         }
-        case 'SAVE_GEOLOCATION_TO_LOCAL_STORAGE': {
+        case 'GET_GEOLOCATION': {
             const newState = Object.assign({}, state);
-            newState.geolocation = {
-                longitude: action.payload.longitude,
-                latitude: action.payload.latitude,
-                error: action.payload.error,
-            };
+            newState.geolocation = action.payload;
             return newState;
         }
         case 'GET_WEATHER': {
@@ -43,6 +34,8 @@ export function weather(state = initialState, action){
                     description: action.payload.weather[0].description,
                     pressure: action.payload.main.pressure,
                 };
+                newState.selectedCity = action.payload.name;
+                newState.timeTravel[state.timeTravel.length] = newState;
                 return newState;
             }
             return state;

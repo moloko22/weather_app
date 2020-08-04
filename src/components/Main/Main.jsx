@@ -8,9 +8,8 @@ import SelectedCityPage from "../../Pages/SelectedCityPage/SelectedCityPage";
 
 const Main = (props) => {
     const {
+        timeTravelBackward,
         geolocation,
-        getGeoFromLS,
-        saveGeoToLS,
         city,
         redirect,
         weather,
@@ -92,18 +91,15 @@ const Main = (props) => {
                     <Route exact path={ROUTES.HOME} component={() => <HomePage city={city}
                                                                                renderWeather={renderWeather}
                                                                                geolocation={geolocation}
-                                                                               getGeoFromLS={getGeoFromLS}
-                                                                               saveGeoToLS={saveGeoToLS}
                                                                                getWeather={getWeather}
                                                                                weather={weather}
                                                                                changeCity={changeCity}
 
                     />}/>
                     <Route path={ROUTES.SELECTED_CITY} component={() => <SelectedCityPage city={city}
-                                                                                          renderWeather={renderWeather}
                                                                                           redirect={redirect}
-                                                                                          weather={weather}
-                                                                                          changeCity={changeCity}
+                                                                                          timeTravelBackward={timeTravelBackward}
+                                                                                          renderWeather={renderWeather}
                     />}/>
                     <Route path={ROUTES.ABOUT} component={() => <AboutPage/>}/>
                     <Redirect from={ROUTES.UNDEFINED} to={ROUTES.HOME} />

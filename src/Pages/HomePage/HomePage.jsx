@@ -5,16 +5,14 @@ const HomePage = (props) => {
     const {
         renderWeather,
         geolocation,
-        city,
-        changeCity,
         weather,
         getWeather,
-        getGeoFromLS,
+        changeCity,
+        city,
     } = props;
 
-    const fetchWeather = async(data, obj) => {
-        await getGeoFromLS();
-        if(data || geolocation){
+    const fetchWeather = (data, obj) => {
+        if(data || (geolocation.longitude && geolocation.latitude)){
             const query = data ? data : `lat=${geolocation.latitude}&lon=${geolocation.longitude}`;
             const fetchData = async () => {
                 return getWeather(query, obj);
@@ -24,11 +22,12 @@ const HomePage = (props) => {
     };
 
     useEffect(() => {
-        if(){
+
+        if(!weather){
             fetchWeather();
         }
 
-    }, [weather, fetchWeather]);
+    }, []);
 
     const renderSelectCity = () => {
         return <div>

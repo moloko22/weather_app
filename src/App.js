@@ -3,58 +3,50 @@ import './App.css';
 import {history} from './_helpers/history';
 import {connect} from "react-redux";
 import {Router} from 'react-router-dom';
-import {getGeoLocationFromLocalStorage, saveGeoLocationToLocalStorage} from "./store/actions/weather";
-import {changeCity, getWeather} from "./store/actions/weather";
+import {
+    changeCity,
+    getWeather,
+    getGeoLocation,
+    timeTravelBackward
+} from "./store/actions/weather";
 import Header from "./components/Header/Header";
 import Main from "./components/Main/Main";
 import Footer from "./components/Footer/Footer";
 
 function App(props) {
+    
     const {
+        changeCityFN,
+        getWeatherFN,
+        getGeoLocationFN,
         geolocation,
-        getGeoFromLS,
-        saveGeoToLS,
-        changeCity,
+        city,
+        timeTravelBack,
         redirect,
         weather,
-        city,
-        getWeather,
     } = props;
 
-    const geoSuccess = (pos) => {
-        return saveGeoToLS({longitude: pos.coords.longitude, latitude: pos.coords.latitude})
-
-    };
-
-    const geoError = (err) => {
-        return saveGeoToLS({longitude: '', latitude: '', err: err.message})
-    };
-
     useEffect(() => {
-        getGeoFromLS();
         if(!geolocation.latitude || !geolocation.longitude){
             if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
+                navigator.geolocation.getCurrentPosition((Position) => getGeoLocationFN(Position));
             } else {
                 console.log("Geolocation is not supported by this browser.");
             }
         }
-    }, [city, geolocation, getWeather, geolocation.longitude, geolocation.latitude, getGeoFromLS]);
-
+    }, [city, geolocation, geolocation.longitude, geolocation.latitude, getGeoLocationFN]);
 
     return (
         <Router history={history}>
             <section className={'app'}>
-                <Header city={city}
-                />
+                <Header />
                 <Main city={city}
+                      timeTravelBackward={timeTravelBack}
                       geolocation={geolocation}
-                      getGeoFromLS={getGeoFromLS}
-                      saveGeoToLS={saveGeoToLS}
-                      getWeather={getWeather}
+                      getWeather={getWeatherFN}
                       redirect={redirect}
                       weather={weather}
-                      changeCity={changeCity}
+                      changeCity={changeCityFN}
                 />
                 <Footer
                 />
@@ -70,11 +62,11 @@ const mapStateToProps = store => ({
 });
 
 const mapDispatchToProps = dispatch =>({
-    changeCity: (city) => dispatch(changeCity(city)),
+    changeCityFN: (city) => dispatch(changeCity(city)),
     redirect: (method, nextUrl) => dispatch({type: 'ROUTING', payload: {method, nextUrl}}),
-    getWeather: (data, obj) => dispatch(getWeather(data, obj)),
-    saveGeoToLS: (data) => dispatch(saveGeoLocationToLocalStorage(data)),
-    getGeoFromLS: () => dispatch(getGeoLocationFromLocalStorage()),
+    getWeatherFN: (data, obj) => dispatch(getWeather(data, obj)),
+    timeTravelBack: () => dispatch(timeTravelBackward()),
+    getGeoLocationFN: (data) => dispatch(getGeoLocation(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

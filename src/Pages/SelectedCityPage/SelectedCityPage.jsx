@@ -3,11 +3,10 @@ import './SelectedCityPage.css';
 
 const SelectedCityPage = (props) => {
     const {
-        city,
-        changeCity,
-        weather,
         redirect,
+        city,
         renderWeather,
+        timeTravelBackward,
     } = props;
 
     React.useEffect(() => {
@@ -44,7 +43,7 @@ const SelectedCityPage = (props) => {
                 city
                 ? <div>
                         {renderWeather()}
-                        <button onClick={() => redirect('goBack')}>Go back</button>
+                        <button onClick={() => timeTravelBackward()}>Go back</button>
                     </div>
                 : showError()
             }

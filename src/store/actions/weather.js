@@ -1,28 +1,11 @@
 import {API_URL, API_KEY} from "../../api/weather_api";
 
-export const getGeoLocationFromLocalStorage = () => dispatch => {
-    if(localStorage.getItem('weather')){
-        const geolocation = localStorage.getItem('weather');
-        const data = JSON.parse(geolocation);
-        return dispatch({type: 'GET_GEOLOCATION_FROM_LOCAL_STORAGE', payload: {...data, error: ''}})
-    }else{
-        return dispatch({type: 'GET_GEOLOCATION_FROM_LOCAL_STORAGE', payload: {longitude: '', latitude: '', error: 'No geo in LS'}})
-    }
-};
-
-export const saveGeoLocationToLocalStorage = (data) => dispatch => {
-    let err = '';
-    try{
-        localStorage.setItem('weather', JSON.stringify(data));
-    }catch (e){
-        err = e;
-    }
-    localStorage.setItem('weather', JSON.stringify(data));
-    return dispatch({type: 'SAVE_GEOLOCATION_TO_LOCAL_STORAGE', payload: {longitude: data.longitude, latitude: data.latitude, error: err}})
-};
-
 export const changeCity = (city) => dispatch => {
     return dispatch({type: 'CHANGE_CITY', payload: {city}})
+};
+
+export const getGeoLocation = (data) => dispatch => {
+    return dispatch({type: 'GET_GEOLOCATION', payload: {longitude: data.coords.longitude, latitude: data.coords.latitude, error: data.message}})
 };
 
 export const getWeather = (data, obj) => dispatch => {
@@ -35,4 +18,10 @@ export const getWeather = (data, obj) => dispatch => {
             }
         })
         .catch(err => dispatch({type: 'GET_WEATHER', payload: {err: err}}))
+};
+
+export const timeTravelBackward = () => dispatch => {
+    return Promise.resolve()
+        .then(() =>  dispatch({type: 'ROUTING', payload: {method: 'goBack'}}))
+        .then(() => dispatch({type: 'TIME_TRAVEL_BACKWARD'}))
 };
