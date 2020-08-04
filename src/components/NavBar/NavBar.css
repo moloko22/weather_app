@@ -3,6 +3,7 @@
     display: flex;
     justify-content: flex-end;
 }
+
 .header_nav ul {
     width: 38%;
     display: flex;
@@ -16,4 +17,15 @@
     list-style: none;
     color: black;
     font-size: 19px;
+}
+
+.header_nav ul li a {
+    cursor: pointer;
+    color: black;
+}
+
+.header_nav ul li a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: red;
 }
